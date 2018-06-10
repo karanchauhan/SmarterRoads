@@ -29,10 +29,15 @@ class GetThread extends Thread {
 		try {
 			int i = 0;
 			gate.await();
+			Future<HttpResponse> future;
+			HttpResponse response;
 			while (i < 5) {
-				Future<HttpResponse> future = client.execute(request, context, null);
-				HttpResponse response = future.get();
-				System.out.println(id + ":" + i++ + " ,");
+				long st = System.currentTimeMillis();
+				future = client.execute(request, context, null);
+				response = future.get();
+				long end = System.currentTimeMillis();
+				System.out.println(id + ":" + i++ + " " + (end - st) + ", ");
+				Thread.sleep(1000);
 			}
 		} catch (Exception ex) {
 			System.out.println(ex.getLocalizedMessage());

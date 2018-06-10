@@ -15,7 +15,7 @@ import org.dbpopulate.entity.ControllerIdDictionary;
 public class RestClient {
 
 	private static final String URL = "https://smarterroads.org/dataset/download/20?token=PlmhXEbQfnEG6bLQzRFDMMzW1RTvoThdL2NiZgPHRtckW7b7LrYqVL3d3VsTIs0Y&api=true&ctlr=";
-	private static final int SIZE = 50;
+	private static final int SIZE = 20;
 
 	public void exchange() throws Exception {
 		ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor();
