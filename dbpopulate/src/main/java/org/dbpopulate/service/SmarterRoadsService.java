@@ -2,6 +2,7 @@ package org.dbpopulate.service;
 
 import java.io.IOException;
 
+import org.dbpopulate.client.RestClient;
 import org.dbpopulate.entity.ControllerData;
 import org.dbpopulate.repository.SampleDAO;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -26,12 +27,21 @@ public class SmarterRoadsService {
 	
 	@Autowired
 	private ObjectMapper mapper;
+	
+	@Autowired
+	private RestClient restClient;
 
 	private String exchange="exchange";
 
 	private String routingkey = "key";
 
 	public void send(ControllerData data) {
+		
+		try {
+			restClient.exchange();
+		} catch (Exception e) {
+			System.out.println("Exception while receiving response");
+		}
 		String dataJson = null;
 		try {
 		 dataJson = mapper.writeValueAsString(data);
@@ -39,6 +49,7 @@ public class SmarterRoadsService {
 			System.out.println("Failed to read data as json");
 			e.printStackTrace();
 		}
+		
 		sampleDAO.save(data);
 		//rabbitTemplate.convertAndSend(exchange, routingkey, dataJson);
 		System.out.println("Sent msg = " + data.toString());
@@ -51,4 +62,5 @@ public class SmarterRoadsService {
 		ResponseEntity<String> response
 		  = restTemplate.getForEntity(fooResourceUrl + "/1", String.class);
 	}
+	
 }

@@ -1,6 +1,6 @@
 package org.dbpopulate.application;
 
-import org.dbpopulate.repository.SampleDAO;
+import org.dbpopulate.client.RestClient;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -60,5 +60,10 @@ public class Config {
 		final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 		rabbitTemplate.setMessageConverter(jsonMessageConverter());
 		return rabbitTemplate;
+	}
+	
+	@Bean 
+	public RestClient restClient() {
+		return new RestClient();
 	}
 }
