@@ -35,11 +35,11 @@ public class Config {
 		return new DirectExchange(exchange);
 	}
 
-	@Bean 
+	@Bean
 	ObjectMapper objectMapper() {
 		return new ObjectMapper();
 	}
-	
+
 	@Bean
 	Binding binding(Queue queue, DirectExchange exchange) {
 		return BindingBuilder.bind(queue).to(exchange).with(routingkey);
@@ -54,15 +54,15 @@ public class Config {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-	
+
 	@Bean
 	public AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
 		final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 		rabbitTemplate.setMessageConverter(jsonMessageConverter());
 		return rabbitTemplate;
 	}
-	
-	@Bean 
+
+	@Bean
 	public RestClient restClient() {
 		return new RestClient();
 	}
