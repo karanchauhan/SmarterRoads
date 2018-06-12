@@ -37,7 +37,7 @@ class GetThread extends Thread {
 				response = future.get();
 				long end = System.currentTimeMillis();
 				System.out.println(id + ":" + i++ + " " + (end - st) + ", ");
-				Thread.sleep(1000);
+				// Thread.sleep(1000);
 			}
 		} catch (Exception ex) {
 			System.out.println(ex.getLocalizedMessage());

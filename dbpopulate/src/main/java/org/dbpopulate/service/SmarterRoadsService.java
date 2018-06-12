@@ -18,49 +18,53 @@ public class SmarterRoadsService {
 
 	@Autowired
 	private AmqpTemplate rabbitTemplate;
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 	@Autowired
 	private SampleDAO sampleDAO;
-	
+
 	@Autowired
 	private ObjectMapper mapper;
-	
+
 	@Autowired
 	private RestClient restClient;
 
-	private String exchange="exchange";
+	private String exchange = "exchange";
 
 	private String routingkey = "key";
 
 	public void send(ControllerData data) {
-		
+
+		long st = System.currentTimeMillis();
+
 		try {
 			restClient.exchange();
 		} catch (Exception e) {
 			System.out.println("Exception while receiving response");
 		}
+
+		long end = System.currentTimeMillis();
+		System.out.println("Total time taken = " + (end - st) + "ms");
+
 		String dataJson = null;
 		try {
-		 dataJson = mapper.writeValueAsString(data);
+			dataJson = mapper.writeValueAsString(data);
 		} catch (IOException e) {
 			System.out.println("Failed to read data as json");
 			e.printStackTrace();
 		}
-		
+
 		sampleDAO.save(data);
-		//rabbitTemplate.convertAndSend(exchange, routingkey, dataJson);
+		// rabbitTemplate.convertAndSend(exchange, routingkey, dataJson);
 		System.out.println("Sent msg = " + data.toString());
 	}
-	
+
 	public void getData() {
 		RestTemplate restTemplate = new RestTemplate();
-		String fooResourceUrl
-		  = "http://localhost:8080/spring-rest/foos";
-		ResponseEntity<String> response
-		  = restTemplate.getForEntity(fooResourceUrl + "/1", String.class);
+		String fooResourceUrl = "http://localhost:8080/spring-rest/foos";
+		ResponseEntity<String> response = restTemplate.getForEntity(fooResourceUrl + "/1", String.class);
 	}
-	
+
 }
